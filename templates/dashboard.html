@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - GuardianX</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <!-- Ionicons for modern icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+    <header>
+        <h1>GuardianX Dashboard</h1>
+        <div>
+            <span id="userInfo" style="margin-right: 1.5rem; font-weight: 600;"></span>
+            <button id="logoutBtn" class="btn btn-danger" style="padding: 0.5rem 1rem;">Logout</button>
+        </div>
+    </header>
+
+    <!-- Main Navigation Grid -->
+    <div id="mainDashboard" class="dashboard-container active">
+        <div class="dashboard-header">
+            <h2>Modules</h2>
+            <p style="color: var(--text-secondary);">Select a module to continue</p>
+        </div>
+        
+        <div class="dashboard-grid">
+            <div class="glass-panel module-card" onclick="app.showSection('gatePassSection')" id="nav-gatepass">
+                <ion-icon name="ticket-outline" class="module-icon" style="color: #38BDF8;"></ion-icon>
+                <div class="module-title">Digital Gate Pass</div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">Request, Approve, Scan Exits</p>
+            </div>
+            
+            <div class="glass-panel module-card" onclick="app.showSection('reportSection')" id="nav-reports">
+                <ion-icon name="warning-outline" class="module-icon" style="color: #EF4444;"></ion-icon>
+                <div class="module-title">Suspicious Activity</div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">Report anonymously, AI analysis</p>
+            </div>
+            
+            <div class="glass-panel module-card" onclick="app.showSection('crowdSection')" id="nav-crowd">
+                <ion-icon name="people-outline" class="module-icon" style="color: #F59E0B;"></ion-icon>
+                <div class="module-title">Crowd Management</div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">Live camera mock, Anomaly detection</p>
+            </div>
+            
+            <div class="glass-panel module-card" onclick="app.showSection('energySection')" id="nav-energy">
+                <ion-icon name="flash-outline" class="module-icon" style="color: #10B981;"></ion-icon>
+                <div class="module-title">Energy Management</div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">IoT metrics, Wastage detection</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gate Pass Module -->
+    <div id="gatePassSection" class="dashboard-container module-section">
+        <button class="btn" style="margin-bottom: 2rem;" onclick="app.showSection('mainDashboard')"><ion-icon name="arrow-back-outline"></ion-icon> Back to Dashboard</button>
+        <div class="grid-2">
+            <div class="glass-panel" id="gp-form-container">
+                <h3>Request Pass</h3>
+                <form id="gpForm" style="margin-top: 1rem;">
+                    <div class="input-group">
+                        <label>Reason</label>
+                        <input type="text" id="gpReason" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Out Time (Today)</label>
+                        <input type="datetime-local" id="gpOutTime" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Expected Return</label>
+                        <input type="datetime-local" id="gpReturnTime" required>
+                    </div>
+                    <button type="submit" class="btn">Submit Request</button>
+                </form>
+            </div>
+            
+            <div class="glass-panel">
+                <h3>Pass History / Actions</h3>
+                <div style="overflow-x: auto;">
+                    <table id="gpTable">
+                        <thead>
+                            <tr>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reports Module -->
+    <div id="reportSection" class="dashboard-container module-section">
+        <button class="btn" style="margin-bottom: 2rem;" onclick="app.showSection('mainDashboard')">Back</button>
+        <div class="grid-2">
+            <div class="glass-panel" id="report-form-container">
+                <h3>Submit Report</h3>
+                <form id="reportForm" style="margin-top: 1rem;">
+                    <div class="input-group">
+                        <label>Description</label>
+                        <input type="text" id="repDesc" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Location</label>
+                        <input type="text" id="repLoc" required>
+                    </div>
+                    <button type="submit" class="btn">Send Report (Anonymous)</button>
+                </form>
+            </div>
+            <div class="glass-panel">
+                <h3>Recent Reports</h3>
+                <table id="reportsTable">
+                    <thead>
+                        <tr>
+                            <th>Desc</th>
+                            <th>Loc</th>
+                            <th>Priority (AI)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Crowd Module -->
+    <div id="crowdSection" class="dashboard-container module-section">
+        <button class="btn" style="margin-bottom: 2rem;" onclick="app.showSection('mainDashboard')">Back</button>
+        <div class="glass-panel" style="text-align: center;">
+            <h2 style="margin-bottom: 1rem;">Live Crowd Density</h2>
+            <div id="crowdCameraPlaceholder" style="width: 100%; height: 300px; background: #000; border-radius: 8px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                <!-- Simulating a camera view overlay -->
+                <div style="position: absolute; top: 10px; left: 10px; color: red; font-family: monospace;">REC • CAMERA 01 (MAIN GATE)</div>
+                <div id="crowdBbox" style="border: 2px solid #0f0; width: 60%; height: 60%; position: absolute; opacity: 0.5; transition: all 0.5s;"></div>
+                <h1 id="crowdCountNode" style="font-size: 5rem; z-index: 10;">--</h1>
+            </div>
+            <p id="crowdStatusNode" style="font-size: 1.5rem; margin-top: 1rem; font-weight: bold;"></p>
+        </div>
+    </div>
+
+    <!-- Energy Module -->
+    <div id="energySection" class="dashboard-container module-section">
+        <button class="btn" style="margin-bottom: 2rem;" onclick="app.showSection('mainDashboard')">Back</button>
+        <div class="glass-panel">
+            <h2>Energy Monitoring</h2>
+            <div class="grid-2" style="margin-top: 2rem;">
+                <div>
+                    <h1 id="energyTotalNode" style="font-size: 4rem; color: #10B981;">-- kWh</h1>
+                    <p style="color: var(--text-secondary);">Total Current Usage</p>
+                </div>
+                <div id="energyAnomaliesNode">
+                    <!-- Warnings go here -->
+                </div>
+            </div>
+            <table id="energyTable" style="margin-top: 2rem;">
+                <thead>
+                    <tr>
+                        <th>Zone</th>
+                        <th>Usage (kWh)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

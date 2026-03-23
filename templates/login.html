@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - GuardianX</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>GuardianX</h1>
+    </header>
+    
+    <div class="auth-container">
+        <div class="glass-panel auth-box">
+            <h2 style="margin-bottom: 2rem; text-align: center;">Welcome Back</h2>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username">Register Number / Name</label>
+                    <input type="text" id="username" required placeholder="e.g. STU123 or Admin John">
+                </div>
+                <div class="input-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">Login Securely</button>
+            </form>
+            <p id="errorMsg" style="color: var(--danger); text-align: center; margin-top: 1rem; display: none;"></p>
+            <div style="margin-top: 2rem; text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+                <p>Mock Users: <br>STU123 (2000-01-01) - Student<br>Admin John (1980-05-15) - Admin<br>Guard Mike (1975-10-20) - Security<br>Tech Sarah (1990-03-30) - Technician<br>732925AMR036 (2007-12-27) - Student</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/api.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const dob = document.getElementById('dob').value;
+            const errorMsg = document.getElementById('errorMsg');
+            
+            try {
+                const res = await api.login(username, dob);
+                localStorage.setItem('token', res.access_token);
+                window.location.href = '/dashboard';
+            } catch (err) {
+                errorMsg.textContent = err.message;
+                errorMsg.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,3 +1,11 @@
+<p align="center">
+  <img src="logo.png" width="200"/>
+</p>
+
+# GuardianX
+Security and Monitoring System
+
+
 # GuardianX - AI Powered Campus Safety System
 
 A complete hackathon-ready campus safety platform that leverages modern web aesthetics and AI logic (mocked for demo purposes) to handle Gate Passes, Suspicious Activity Reporting, Crowd Management, and Energy Monitoring.
